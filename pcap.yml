@@ -1,12 +1,18 @@
 ---
-- name: Extract Executable from PCAP
-  hosts: server1
-  become: yes
+  - name: Extract Executable from PCAP
+    hosts: server1
+    become: yes
 
-  tasks:
+    tasks:
     - name: Copy PCAP to Control Node
       fetch:
-        src: /home/cabario/PCAP/dump.pcap
+        src: /home/cabario/pcap.pcap
         dest: /home/cabario/HOA-8.1/pcap_file/
         flat: yes
       register: fetch
+
+    - name: Extract executable from PCAP
+    script: "/home/cabario/HOA-8.1/"
+    args:
+      pcap_file: "/home/cabario/HOA-8.1/pcap_file/dump.pcap"
+      output_directory: "/home/cabario/HOA-8.1/pcap_file/extracted/"
